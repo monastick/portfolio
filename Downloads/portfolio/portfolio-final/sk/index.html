@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikita Medvetskyi | SMM & AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('https://fonts.cdnfonts.com/css/minecraft');
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --accent: #ff2e7d;
+            --border: #e0e0e0;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            font-size: 18px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(245, 245, 245, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border);
+        }
+        
+        header .container {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 70px;
+        }
+        
+        .logo { font-size: 28px; font-weight: bold; letter-spacing: 2px; }
+        
+        nav { display: flex; gap: 32px; }
+        
+        nav a {
+            color: var(--text); text-decoration: none;
+            font-size: 20px; text-transform: uppercase;
+            position: relative; transition: color 0.3s;
+        }
+        
+        nav a:hover { color: var(--accent); }
+        
+        .lang-switcher {
+            display: flex; gap: 12px;
+        }
+        
+        .lang-switcher a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 16px; padding: 4px 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .lang-switcher a:hover,
+        .lang-switcher a.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        /* Hero */
+        .hero {
+            min-height: 60vh; display: flex; align-items: center;
+            padding-top: 100px; padding-bottom: 60px;
+        }
+        
+        .hero-content { text-align: center; width: 100%; }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border: 2px solid var(--text);
+            border-radius: 30px;
+            font-size: 20px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(48px, 10vw, 100px);
+            font-weight: normal;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--text-secondary);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        
+        /* Section */
+        section { padding: 80px 0; }
+        
+        .section-header {
+            display: flex; align-items: center; gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .section-num {
+            font-size: 14px; color: var(--text-secondary);
+            border: 2px solid var(--border);
+            padding: 4px 12px; border-radius: 20px;
+        }
+        
+        .section-title {
+            font-size: 14px; color: var(--text-secondary);
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        
+        h2 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: normal;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        /* About */
+        .about-text {
+            font-size: 22px;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+        
+        .about-text p { margin-bottom: 16px; }
+        
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .service-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .service-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        
+        .service-header {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .service-header h3 {
+            font-size: 24px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .service-arrow {
+            width: 40px; height: 40px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .service-card.active .service-arrow {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: rotate(180deg);
+        }
+        
+        .service-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-card.active .service-content {
+            max-height: 500px;
+        }
+        
+        .service-inner {
+            padding: 0 24px 24px;
+        }
+        
+        .service-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: var(--border);
+        }
+        
+        .service-list {
+            list-style: none;
+        }
+        
+        .service-list li {
+            padding: 10px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 18px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .service-list li:last-child { border-bottom: none; }
+        
+        .service-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* FAQ */
+        .faq-list { max-width: 900px; }
+        
+        .faq-item {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover { border-color: var(--accent); }
+        
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .faq-question h3 {
+            font-size: 20px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+        
+        .faq-arrow {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+        
+        .faq-answer p {
+            padding: 0 24px 24px;
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        .contact-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+        }
+        
+        .contact-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        
+        .contact-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        
+        .contact-value {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 2px solid var(--border);
+            text-align: center;
+        }
+        
+        footer p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hero { min-height: 50vh; }
+            .services-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">NIKITA MEDVETSKYI</div>
+            <nav>
+                <a href="#about">O mne</a>
+                <a href="#services">Služby</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Kontakt</a>
+            </nav>
+            <div class="lang-switcher">
+                <a href="../ru/index.html">RU</a>
+                <a href="../uk/index.html">UK</a>
+                <a href="../en/index.html">EN</a>
+                <a href="#" class="active">SK</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">SMM | AI | Content</div>
+                <h1>NIKITA MEDVETSKYI</h1>
+                <p class="hero-subtitle">SMM | AI-Agenti | Content Creator</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">/01</span>
+                <span class="section-title">O mne</span>
+            </div>
+            <h2>Ahoj!</h2>
+            <div class="about-text">
+                <p><strong>Meno:</strong> Nikita Medvetskyi</p>
+                <p><strong>Vek:</strong> 19 rokov</p>
+                <p>Som pripravený rýchlo a rád sa pustiť do práce, ktorá vás zaujíma. Rýchlo odpovedám a dokončujem prácu včas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">/02</span>
+                <span class="section-title">Služby</span>
+            </div>
+            <h2>Čo robím</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>SMM</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">SMM</div>
+                            <ul class="service-list">
+                                <li>Kompletná správa účtov na sociálnych sieťach</li>
+                                <li>Vývoj propagačnej stratégie</li>
+                                <li>Tvorba content plánu</li>
+                                <li>Analýza publika a konkurencie</li>
+                                <li>Balenie a dizajn profilu</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Tvorba AI-agentov</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">AI</div>
+                            <ul class="service-list">
+                                <li>Biznis agent</li>
+                                <li>Agent pre sociálne siete</li>
+                                <li>Content agent</li>
+                                <li>AI podporný manažér</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Content creator</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">CONTENT</div>
+                            <ul class="service-list">
+                                <li>Tvorba unikátneho obsahu</li>
+                                <li>Vývoj nápadov na príspevky a stories</li>
+                                <li>Písanie textov akejkoľvek zložitosti</li>
+                                <li>Výber vizuálov a štýlu profilu</li>
+                                <li>Tvorba predajných príspevkov</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Tvorba stories</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">STORIES</div>
+                            <ul class="service-list">
+                                <li>Vývoj scenárov pre stories</li>
+                                <li>Prípravy pred spustením produktu</li>
+                                <li>Interaktívne stories</li>
+                                <li>Vizuálny dizajn stories</li>
+                                <li>Pravidelná správa denných stories</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Copywriting</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">COPY</div>
+                            <ul class="service-list">
+                                <li>Písanie reklamných textov</li>
+                                <li>Tvorba predajných príspevkov</li>
+                                <li>Texty pre spustenia a akcie</li>
+                                <li>Popisy produktov a služieb</li>
+                                <li>Scenáre pre reklamu a Reels</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Vizuálny obsah</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">VISUAL</div>
+                            <ul class="service-list">
+                                <li>Tvorba kreatív a obrázkov pre príspevky</li>
+                                <li>Dizajn feedu v jednotnom štýle</li>
+                                <li>Vývoj titulných obrázkov a bannerov</li>
+                                <li>Príprava vizuálov pre reklamu</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Asistent / Online manažér</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">ASSIST</div>
+                            <ul class="service-list">
+                                <li>Vedenie korešpondencie s klientmi</li>
+                                <li>Spracovanie objednávok a komentárov</li>
+                                <li>Organizácia úloh a kontrola termínov</li>
+                                <li>Pomoc pri spúšťaní projektov</li>
+                                <li>Administratívna podpora</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>Reklama a propagácia</h3>
+                        <div class="service-arrow">▼</div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-inner">
+                            <div class="service-image">ADS</div>
+                            <ul class="service-list">
+                                <li>Tvorba reklamných oznámení</li>
+                                <li>Príprava textov pre cielenú reklamu</li>
+                                <li>Pomoc pri spúšťaní reklamných kampaní</li>
+                                <li>Analýza efektivity reklamy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">/03</span>
+                <span class="section-title">FAQ</span>
+            </div>
+            <h2>Otázky a odpovede</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Koľko stojí vaša práca?</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Cena je dohodová. Diskutuje sa individuálne pre každý projekt.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Je skúšobná doba?</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Áno! Poskytujem bezplatný skúšobný týždeň na hodnotenie kvality práce.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Aké sú vaše hlavné kvality?</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Cieľavedomosť, zodpovednosť a komunikatívnosť.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Čím sa zaoberáte vo voľnom čase?</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pozerám YouTube (rozvoj, zárobok, zábava), chodím na prechádzky na čerstvom vzduchu a rád varím chutné jedlá.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Čo je pre vás dôležité v práci?</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Úcta, priateľská atmosféra v kolektíve a slušné odmeňovanie.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Prečo pracovať práve so mnou?</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Som mladý a perspektívny špecialista. Pre mňa je dôležité získavať skúsenosti a neustále zlepšovať svoje zručnosti — preto každú úlohu vykonávam s maximálnym nasadením a kvalitou.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">/04</span>
+                <span class="section-title">Kontakt</span>
+            </div>
+            <h2>Kontaktujte ma</h2>
+            <div class="contact-grid">
+                <a href="https://t.me/monastick" target="_blank" class="contact-card">
+                    <div class="contact-label">Telegram</div>
+                    <div class="contact-value">@monastick</div>
+                </a>
+                <a href="https://wa.me/monastick" target="_blank" class="contact-card">
+                    <div class="contact-label">WhatsApp</div>
+                    <div class="contact-value">monastick</div>
+                </a>
+                <a href="https://instagram.com/monastick" target="_blank" class="contact-card">
+                    <div class="contact-label">Instagram</div>
+                    <div class="contact-value">@monastick</div>
+                </a>
+                <a href="mailto:myckat2626@gmail.com" class="contact-card">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">myckat2626@gmail.com</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Nikita Medvetskyi. Všetky práva vyhradené.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleService(header) {
+            const card = header.parentElement;
+            const wasActive = card.classList.contains('active');
+            
+            document.querySelectorAll('.service-card').forEach(c => {
+                c.classList.remove('active');
+            });
+            
+            if (!wasActive) {
+                card.classList.add('active');
+            }
+        }
+        
+        function toggleFaq(question) {
+            const item = question.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('active');
+            });
+            
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
