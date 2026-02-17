@@ -317,7 +317,7 @@ h2 {
 .service-card.active .service-arrow {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  color: #ffffff;
   transform: rotate(180deg);
 }
 
@@ -456,7 +456,6 @@ h2 {
   text-decoration: none;
   color: var(--text);
   display: block;
-  backdrop-filter: blur(8px);
   min-width: 0;
   overflow: hidden;
 }
@@ -464,7 +463,7 @@ h2 {
 .contact-card:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(255, 46, 125, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .contact-label {
