@@ -206,20 +206,7 @@ nav a:hover::after {
   animation-delay: 0.6s;
 }
 
-.hero-url {
-  margin-top: 24px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  letter-spacing: 2px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.6s ease forwards;
-  animation-delay: 0.8s;
-}
 
-.hero-url span {
-  color: var(--accent);
-}
 
 @keyframes fadeInUp {
   to {
@@ -466,13 +453,15 @@ h2 {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 28px;
+  padding: 28px 16px;
   text-align: center;
   transition: all 0.3s ease;
   text-decoration: none;
   color: var(--text);
   display: block;
   backdrop-filter: blur(8px);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .contact-card:hover {
@@ -490,8 +479,11 @@ h2 {
 }
 
 .contact-value {
-  font-size: 18px;
-  letter-spacing: 1px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  max-width: 100%;
 }
 
 /* Footer */

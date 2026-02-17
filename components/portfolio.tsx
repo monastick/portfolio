@@ -129,9 +129,6 @@ export default function Portfolio({ content, currentLang }: { content: LangConte
               <div className="hero-badge">SMM | AI | Content</div>
               <h1>NIKITA MEDVETSKYI</h1>
               <p className="hero-subtitle">{content.heroSubtitle}</p>
-              <p className="hero-url">
-                <span>medvetskyi.com</span>
-              </p>
             </div>
           </div>
         </section>
